@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
- {%include("layout/header.html") %}  
+  {%include("layout/header.html") %}
   <body>
     <!-- Fixed navbar -->
     {%include("layout/nav.html") %}
@@ -16,7 +16,6 @@
       </ol>
 
       <div class="row">
-        <!-- Article main content -->
         <article class="col-xs-12 maincontent">
           <header class="page-header">
             <h1 class="page-title">Registration</h1>
@@ -27,103 +26,74 @@
               <div class="panel-body">
                 <h3 class="thin text-center">Register a new account</h3>
                 <p class="text-center text-muted">
-                  Lorem ipsum dolor sit amet,
-                  <a href="/signin">Login</a> adipisicing elit. Quo nulla
-                  quibusdam cum doloremque incidunt nemo sunt a tenetur omnis
-                  odio.
+                  Déjà un compte ?
+                  <a href="/signin">Se connecter</a>
                 </p>
                 <hr />
 
-                <form>
+                <form method="POST" action="/signup">
                   <div class="top-margin">
-                    <label>First Name</label>
-                    <input type="text" class="form-control" />
-                  </div>
-                  <div class="top-margin">
-                    <label>Last Name</label>
-                    <input type="text" class="form-control" />
+                    <label>Prénom</label>
+                    <input type="text" name="firstname" class="form-control" placeholder="Votre prénom" />
                   </div>
                   <div class="top-margin">
-                    <label
-                      >Email Address <span class="text-danger">*</span></label
-                    >
-                    <input type="text" class="form-control" />
+                    <label>Nom</label>
+                    <input type="text" name="lastname" class="form-control" placeholder="Votre nom" />
                   </div>
-
-                  <div class="row
-    <!-- /.navbar -->
-
-    <header id="head" class="secondary"></header>
-
-    <!-- container -->
-    <div class="container">
-      <ol class="breadcrumb">
-        <li><a href="/">Home</a></li>
-        <li class="active">User access</li>
-      </ol>
-
-      <div class="row">
-        <!-- Article main content -->
-        <article class="col-xs-12 maincontent">
-          <header class="page-header">
-            <h1 class="page-title">Sign in</h1>
-          </header>
-
-          <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-            <div class="panel panel-default">
-              <div class="panel-body">
-                <h3 class="thin text-center">Sign in to your account</h3>
-                <p class="text-center text-muted">
-                  Lorem ipsum dolor sit amet,
-                  <a href="/signup">Register</a> adipisicing elit. Quo nulla
-                  quibusdam cum doloremque incidunt nemo sunt a tenetur omnis
-                  odio.
-                </p>
-                <hr />
-
-                <form>
                   <div class="top-margin">
-                    <label
-                      >Username/Email <span class="text-danger">*</span></label
-                    >
-                    <input type="text" class="form-control" />
+                    <label>Email <span class="text-danger">*</span></label>
+                    <input type="text" name="email" class="form-control" placeholder="votre@email.com" />
                   </div>
-           top-margin">
-                    <div class="col-sm-6">
-                      <label>Password <span class="text-danger">*</span></label>
-                      <input type="text" class="form-control" />
-                    </div>
-                    <div class="col-sm-6">
-                      <label
-                        >Confirm Password
-                        <span class="text-danger">*</span></label
-                      >
-                      <input type="text" class="form-control" />
-                    </div>
+                  <div class="top-margin">
+                    <label>Statut <span class="text-danger">*</span></label>
+                    <select name="statut" class="form-control">
+                      <option value="">-- Choisir un statut --</option>
+                      <option value="gestionnaire">Gestionnaire</option>
+                      <option value="administrateur">Administrateur</option>
+                    </select>
                   </div>
+                  <div class="top-margin">
+                    <label>Mot de passe <span class="text-danger">*</span></label>
+                    <input type="password" name="password" class="form-control" placeholder="••••••••" />
+                  </div>
+                  <div class="top-margin">
+                    <label>Confirmer le mot de passe <span class="text-danger">*</span></label>
+                    <input type="password" name="confirm_password" class="form-control" placeholder="••••••••" />
+                  </div>
+
+                  {% if error %}
+                  <div class="top-margin">
+                    <p style="color:red;">{{ error }}</p>
+                  </div>
+                  {% endif %}
+
+                  {% if success %}
+                  <div class="top-margin">
+                    <p style="color:green;">{{ success }}</p>
+                  </div>
+                  {% endif %}
 
                   <hr />
 
                   <div class="row">
                     <div class="col-lg-8">
                       <label class="checkbox">
-                        <input type="checkbox" />
-                        I've read the
-                        <a href="page_terms.html">Terms and Conditions</a>
+                        <input type="checkbox" name="terms" />
+                        J'accepte les <a href="#">conditions d'utilisation</a>
                       </label>
                     </div>
                     <div class="col-lg-4 text-right">
                       <button class="btn btn-action" type="submit">
-                        Register
+                        S'inscrire
                       </button>
                     </div>
                   </div>
                 </form>
+
               </div>
             </div>
           </div>
         </article>
-        <!-- /Article -->
       </div>
     </div>
     <!-- /container -->
@@ -167,18 +137,9 @@
                   praesentium repellat commodi ad id expedita cupiditate
                   repellendus possimus unde?
                 </p>
-                <p>
-                  Eius consequatur nihil quibusdam! Laborum, rerum, quis,
-                  inventore ipsa autem repellat provident assumenda labore
-                  soluta minima alias temporibus facere distinctio quas adipisci
-                  nam sunt explicabo officia tenetur at ea quos doloribus
-                  dolorum voluptate reprehenderit architecto sint libero illo et
-                  hic.
-                </p>
               </div>
             </div>
           </div>
-          <!-- /row of widgets -->
         </div>
       </div>
 
@@ -188,31 +149,25 @@
             <div class="col-md-6 widget">
               <div class="widget-body">
                 <p class="simplenav">
-                  <a href="#">Home</a> | <a href="/about">About</a> |
-                  <a href="sidebar-right.html">Sidebar</a> |
+                  <a href="/">Home</a> | <a href="/about">About</a> |
                   <a href="/contact">Contact</a> |
                   <b><a href="/signup">Sign up</a></b>
                 </p>
               </div>
             </div>
-
             <div class="col-md-6 widget">
               <div class="widget-body">
                 <p class="text-right">
                   Copyright &copy; 2014, Your name. Designed by
-                  <a href="http://gettemplate.com/" rel="designer"
-                    >gettemplate</a
-                  >
+                  <a href="http://gettemplate.com/" rel="designer">gettemplate</a>
                 </p>
               </div>
             </div>
           </div>
-          <!-- /row of widgets -->
         </div>
       </div>
     </footer>
 
-    <!-- JavaScript libs are placed at the end of the document so the pages load faster -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <script src="static/js/headroom.min.js"></script>
