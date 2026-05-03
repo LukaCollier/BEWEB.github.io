@@ -77,3 +77,19 @@ def get_user(email, password):
     user = cursor.fetchone()
     conn.close()
     return user
+
+@app.route("/team/camille")
+def team_camille():
+    return render_template("team/camille.html")
+
+@app.route("/team/etienne")
+def team_etienne():
+    return render_template("team/etienne.html")
+
+@app.route("/team/luka")
+def team_luka():
+    return render_template("team/luka.html")
+
+@app.route("/team/darya")
+def team_darya():
+    return render_template("team/darya.html")
