@@ -1,4 +1,4 @@
-from flask import Flask, render_template,request, redirect, session
+from flask import Flask, render_template,request, redirect, session, url_for
 import mysql.connector
 from myApp.config import DB_SERVER
 
@@ -8,10 +8,88 @@ app.static_folder="static"
 app.layout_folder="layout"
 app.config.from_object("myApp.config")
 
+
+def get_db_connection():
+    return mysql.connector.connect(**DB_SERVER)
+
+
+def get_flashcard_banks():
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute(
+        """
+        SELECT c.idcategorie AS id,
+               c.nomcategorie AS name,
+               COUNT(carte.idcarte) AS card_count
+        FROM categorie c
+        LEFT JOIN carte ON carte.idcategorie = c.idcategorie
+        GROUP BY c.idcategorie, c.nomcategorie
+        ORDER BY c.nomcategorie
+        """
+    )
+    banks = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return banks
+
+
+def get_flashcards_by_bank(bank_id):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute(
+        """
+        SELECT c.idcarte AS id,
+               c.question,
+               c.reponse,
+               cat.nomcategorie AS category_name
+        FROM carte c
+        INNER JOIN categorie cat ON cat.idcategorie = c.idcategorie
+        WHERE cat.idcategorie = %s
+        ORDER BY c.idcarte
+        """,
+        (bank_id,)
+    )
+    cards = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return cards
+
 @app.route("/")
 
 def index():
     return render_template("index.html")
+
+
+@app.route("/banques")
+def banques():
+    error = None
+    banks = []
+    try:
+        banks = get_flashcard_banks()
+    except Exception:
+        error = "Impossible de charger les banques de flashcards pour le moment."
+    return render_template("banques.html", banks=banks, error=error)
+
+
+@app.route("/banques/<int:bank_id>")
+def banque_detail(bank_id):
+    error = None
+    banks = []
+    cards = []
+    selected_bank = None
+    try:
+        banks = get_flashcard_banks()
+        selected_bank = next((bank for bank in banks if bank["id"] == bank_id), None)
+        cards = get_flashcards_by_bank(bank_id)
+    except Exception:
+        error = "Impossible d'afficher cette banque pour le moment."
+    return render_template(
+        "banques.html",
+        banks=banks,
+        cards=cards,
+        selected_bank=selected_bank,
+        error=error,
+    )
 
 @app.route("/about")
 def about():

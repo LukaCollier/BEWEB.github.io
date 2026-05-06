@@ -13,6 +13,6 @@ DB_SERVER={
     "password":"mysql",
     "host":"localhost",
     "port": 3306,
-    "database": "ienac_cours",
+    "database": "ienac25_flashcards_groupea",
     "raise_on_warnings": True
 }
